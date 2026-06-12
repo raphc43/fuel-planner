@@ -5,6 +5,10 @@ from django.core.management.base import BaseCommand
 from routing.models import FuelStation
 
 
+# state__in=["NJ", "MD", "VA", "NC", "SC", "GA", "FL"] New York, NY to Miami, FL
+# state__in=["IL", "IN", "KY", "TN", "GA"] Chicago, IL to Atlanta, GA
+# state__in=["WA", "OR", "CA"] Seattle, WA to LLos Angeles, CA
+
 class Command(BaseCommand):
     help = "Geocode all fuel stations using Nominatim"
 
@@ -13,7 +17,7 @@ class Command(BaseCommand):
         stations = FuelStation.objects.filter(
             latitude__isnull=True,
             longitude__isnull=True,
-            state__in=["NJ", "MD", "VA", "NC", "SC", "GA", "FL"]
+            state__in=["WA", "OR", "CA"]
         )[:20]
 
         self.stdout.write(f"Geocoding {stations.count()} stations...")
@@ -44,7 +48,7 @@ class Command(BaseCommand):
                     station.save()
 
                     self.stdout.write(
-                        f"[{i}] OK: {station.name} → {station.latitude}, {station.longitude}"
+                        f"[{i}] OK: {station.name} -> {station.latitude}, {station.longitude}"
                     )
                 else:
                     self.stdout.write(

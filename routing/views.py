@@ -17,6 +17,7 @@ from .serializers import RouteRequestSerializer
 class RouteAPIView(APIView):
 
     def post(self, request):
+        """Return map route with optimal fuel up locations"""
 
         try:
             serializer = RouteRequestSerializer(
